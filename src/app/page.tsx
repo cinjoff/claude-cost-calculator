@@ -5,6 +5,8 @@ import { PlanToggle } from '@/components/PlanToggle';
 import { IsometricTable } from '@/components/IsometricTable';
 import { ComboCard } from '@/components/ComboCard';
 import { ShuffleButton } from '@/components/ShuffleButton';
+import { DopamineBar } from '@/components/DopamineBar';
+import { ClaudeBenefits } from '@/components/ClaudeBenefits';
 import { ITEMS, PLANS, type PlanKey } from '@/data/items';
 import { generateCombo, type ComboResult } from '@/lib/combo';
 
@@ -33,11 +35,14 @@ export default function Home() {
 
       {/* Hero */}
       <section className="text-center max-w-xl">
+        <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">
+          dope-a-meter
+        </p>
         <h1 className="text-4xl md:text-5xl font-bold leading-tight text-text-primary mb-3">
-          Is Claude expensive?
+          claude-culator
         </h1>
         <p className="text-lg text-gray-500">
-          Let&apos;s put it in Amsterdam terms.
+          Is Claude expensive? Let&apos;s put it in Amsterdam terms.
         </p>
       </section>
 
@@ -55,6 +60,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Dopamine bar */}
+      <DopamineBar combo={comboResult.combo} />
+
+      {/* Claude benefits */}
+      <ClaudeBenefits />
+
       {/* Footer */}
       <footer className="text-center mt-auto pt-8 flex flex-col items-center gap-4">
         <a
@@ -69,7 +80,7 @@ export default function Home() {
           Built to convince my friends. It worked on me first.
         </p>
         <a
-          href="https://github.com/pcvelz/claude-cost-calculator"
+          href="https://github.com/cinjoff/claude-cost-calculator"
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs text-gray-300 hover:text-gray-400 transition-colors"
