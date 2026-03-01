@@ -66,39 +66,44 @@ export function IsometricTable({ combo, comboKey }: IsometricTableProps) {
         <motion.div
           key={comboKey}
           className="absolute inset-0"
+          exit={{ opacity: 0, transition: { duration: 0.15 } }}
         >
-          {combo.flatMap((comboItem, i) =>
-            Array.from({ length: Math.min(comboItem.quantity, 3) }, (_, qIdx) => {
-              const posIdx = (i + qIdx) % TABLE_POSITIONS.length;
-              const pos = TABLE_POSITIONS[posIdx];
-              const Icon = ITEM_ICONS[comboItem.item.id];
-              if (!Icon) return null;
+          {(() => {
+            let flatIdx = 0;
+            return combo.flatMap((comboItem, i) =>
+              Array.from({ length: Math.min(comboItem.quantity, 3) }, (_, qIdx) => {
+                const posIdx = flatIdx % TABLE_POSITIONS.length;
+                flatIdx++;
+                const pos = TABLE_POSITIONS[posIdx];
+                const Icon = ITEM_ICONS[comboItem.item.id];
+                if (!Icon) return null;
 
-              return (
-                <motion.div
-                  key={`${comboItem.item.id}-${qIdx}`}
-                  custom={i + qIdx}
-                  variants={itemVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="absolute"
-                  style={{
-                    left: `${pos.x * 100}%`,
-                    top: `${pos.y * 100}%`,
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                >
-                  <Icon size={56} />
-                  {comboItem.quantity > 1 && qIdx === 0 && (
-                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                      {comboItem.quantity}
-                    </span>
-                  )}
-                </motion.div>
-              );
-            })
-          ).filter((el): el is ReactElement => el !== null)}
+                return (
+                  <motion.div
+                    key={`${comboItem.item.id}-${qIdx}`}
+                    custom={i + qIdx}
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="absolute"
+                    style={{
+                      left: `${pos.x * 100}%`,
+                      top: `${pos.y * 100}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  >
+                    <Icon size={56} />
+                    {comboItem.quantity > 1 && qIdx === 0 && (
+                      <span className="absolute -top-1 -right-1 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                        {comboItem.quantity}
+                      </span>
+                    )}
+                  </motion.div>
+                );
+              })
+            ).filter((el): el is ReactElement => el !== null);
+          })()}
         </motion.div>
       </AnimatePresence>
     </div>
