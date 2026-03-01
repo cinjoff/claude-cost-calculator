@@ -19,7 +19,7 @@ export const ITEMS: Item[] = [
   { id: 'pizza',       label: 'Pizza',                      price: 20.00, weight: 3,  dopamineMins: 30   },
   { id: 'weed',        label: 'Weed',                       price: 12.00, weight: 3,  dopamineMins: 240  },
   { id: 'cocaine',     label: 'Cocaine',                    price: 60.00, weight: 1,  dopamineMins: 20   },
-  { id: 'margaritas',  label: '3× Margaritas + 3× Tacos',  price: 45.00, weight: 2,  dopamineMins: 180  },
+  { id: 'margaritas',  label: 'Margaritas + Tacos',         price: 45.00, weight: 2,  dopamineMins: 180  },
 ];
 
 export const PLANS = {
