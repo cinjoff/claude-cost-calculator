@@ -15,9 +15,9 @@ function newCombo(plan: PlanKey): ComboResult {
 }
 
 export default function Home() {
-  const [plan, setPlan] = useState<PlanKey>('pro');
+  const [plan, setPlan] = useState<PlanKey>('max');
   const [comboKey, setComboKey] = useState(0);
-  const [comboResult, setComboResult] = useState<ComboResult>(() => newCombo('pro'));
+  const [comboResult, setComboResult] = useState<ComboResult>(() => newCombo('max'));
 
   const handlePlanChange = useCallback((newPlan: PlanKey) => {
     setPlan(newPlan);
