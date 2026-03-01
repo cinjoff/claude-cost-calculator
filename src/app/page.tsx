@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { PlanToggle } from '@/components/PlanToggle';
-import { IsometricTable } from '@/components/IsometricTable';
 import { ComboCard } from '@/components/ComboCard';
 import { ShuffleButton } from '@/components/ShuffleButton';
 import { DopamineBar } from '@/components/DopamineBar';
@@ -16,18 +15,15 @@ function newCombo(plan: PlanKey): ComboResult {
 
 export default function Home() {
   const [plan, setPlan] = useState<PlanKey>('max');
-  const [comboKey, setComboKey] = useState(0);
   const [comboResult, setComboResult] = useState<ComboResult>(() => newCombo('max'));
 
   const handlePlanChange = useCallback((newPlan: PlanKey) => {
     setPlan(newPlan);
     setComboResult(newCombo(newPlan));
-    setComboKey(k => k + 1);
   }, []);
 
   const handleShuffle = useCallback(() => {
     setComboResult(newCombo(plan));
-    setComboKey(k => k + 1);
   }, [plan]);
 
   return (
@@ -49,15 +45,10 @@ export default function Home() {
       {/* Plan toggle */}
       <PlanToggle selected={plan} onChange={handlePlanChange} />
 
-      {/* Stage */}
-      <section className="w-full max-w-2xl flex flex-col md:flex-row items-center gap-8">
-        <div className="flex-1 w-full">
-          <IsometricTable combo={comboResult.combo} comboKey={comboKey} />
-        </div>
-        <div className="flex flex-col items-center w-full md:w-auto">
-          <ComboCard combo={comboResult.combo} remainder={comboResult.remainder} />
-          <ShuffleButton onClick={handleShuffle} />
-        </div>
+      {/* Combo */}
+      <section className="flex flex-col items-center gap-4">
+        <ComboCard combo={comboResult.combo} remainder={comboResult.remainder} />
+        <ShuffleButton onClick={handleShuffle} />
       </section>
 
       {/* Dopamine bar */}

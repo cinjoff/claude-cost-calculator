@@ -39,16 +39,20 @@ export function generateCombo(budget: number, items: Item[]): ComboResult {
 
   for (const item of pool) {
     if (result.length >= MAX_DISTINCT) break;
-    if (item.price > remaining + MAX_OVERAGE) continue;
 
-    const maxQty = Math.min(
-      Math.floor((remaining + MAX_OVERAGE) / item.price),
-      4
-    );
-    if (maxQty < 1) continue;
+    const itemMin = item.qtyMin ?? 1;
+    const itemMax = item.qtyMax ?? 4;
 
-    // Bias toward smaller quantities
-    const qty = Math.ceil(Math.random() * maxQty);
+    // Skip if we can't afford the minimum quantity
+    if (item.price * itemMin > remaining + MAX_OVERAGE) continue;
+
+    const maxAffordable = Math.floor((remaining + MAX_OVERAGE) / item.price);
+    const maxQty = Math.min(maxAffordable, itemMax);
+
+    if (maxQty < itemMin) continue;
+
+    // Pick quantity in [itemMin, maxQty]
+    const qty = itemMin + Math.floor(Math.random() * (maxQty - itemMin + 1));
     result.push({ item, quantity: qty });
     remaining = Math.round((remaining - item.price * qty) * 100) / 100;
 

@@ -11,6 +11,7 @@ export { PizzaIcon } from './PizzaIcon';
 export { WeedIcon } from './WeedIcon';
 export { CocaineIcon } from './CocaineIcon';
 export { MargaritasIcon } from './MargaritasIcon';
+export { TacosIcon } from './TacosIcon';
 
 import { BeerIcon } from './BeerIcon';
 import { CoffeeIcon } from './CoffeeIcon';
@@ -25,6 +26,7 @@ import { PizzaIcon } from './PizzaIcon';
 import { WeedIcon } from './WeedIcon';
 import { CocaineIcon } from './CocaineIcon';
 import { MargaritasIcon } from './MargaritasIcon';
+import { TacosIcon } from './TacosIcon';
 import type React from 'react';
 
 export const ITEM_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
@@ -41,4 +43,5 @@ export const ITEM_ICONS: Record<string, React.ComponentType<{ size?: number }>> 
   weed: WeedIcon,
   cocaine: CocaineIcon,
   margaritas: MargaritasIcon,
+  tacos: TacosIcon,
 };
