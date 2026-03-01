@@ -32,7 +32,7 @@ describe('generateCombo', () => {
   it('never has more than 6 distinct items', () => {
     for (let i = 0; i < 20; i++) {
       const result = generateCombo(PLANS.max.price, ITEMS);
-      expect(result.combo.length).toBeLessThanOrEqual(6);
+      expect(result.combo.length).toBeLessThanOrEqual(5);
     }
   });
 

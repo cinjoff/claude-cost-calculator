@@ -50,7 +50,7 @@ export function generateCombo(budget: number, items: Item[]): ComboResult {
     // Bias toward smaller quantities
     const qty = Math.ceil(Math.random() * maxQty);
     result.push({ item, quantity: qty });
-    remaining -= item.price * qty;
+    remaining = Math.round((remaining - item.price * qty) * 100) / 100;
 
     if (remaining <= 0) break;
   }
