@@ -49,7 +49,7 @@ export default function Home() {
         <div className="flex-1 w-full">
           <IsometricTable combo={comboResult.combo} comboKey={comboKey} />
         </div>
-        <div className="flex flex-col items-center gap-0">
+        <div className="flex flex-col items-center w-full md:w-auto">
           <ComboCard combo={comboResult.combo} remainder={comboResult.remainder} />
           <ShuffleButton onClick={handleShuffle} />
         </div>
