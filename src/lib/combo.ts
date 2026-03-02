@@ -19,7 +19,6 @@ function weightedShuffle(items: Item[]): Item[] {
     const j = Math.floor(Math.random() * (i + 1));
     [weighted[i], weighted[j]] = [weighted[j], weighted[i]];
   }
-  // Deduplicate while preserving weighted order
   const seen = new Set<string>();
   return weighted.filter(item => {
     if (seen.has(item.id)) return false;
@@ -28,8 +27,8 @@ function weightedShuffle(items: Item[]): Item[] {
   });
 }
 
-export function generateCombo(budget: number, items: Item[]): ComboResult {
-  const MAX_DISTINCT = 5;
+function generateOnce(budget: number, items: Item[]): ComboResult {
+  const MAX_DISTINCT = 6;
   const MAX_OVERAGE = 2;
 
   let remaining = budget;
@@ -43,7 +42,6 @@ export function generateCombo(budget: number, items: Item[]): ComboResult {
     const itemMin = item.qtyMin ?? 1;
     const itemMax = item.qtyMax ?? 4;
 
-    // Skip if we can't afford the minimum quantity
     if (item.price * itemMin > remaining + MAX_OVERAGE) continue;
 
     const maxAffordable = Math.floor((remaining + MAX_OVERAGE) / item.price);
@@ -51,7 +49,6 @@ export function generateCombo(budget: number, items: Item[]): ComboResult {
 
     if (maxQty < itemMin) continue;
 
-    // Pick quantity in [itemMin, maxQty]
     const qty = itemMin + Math.floor(Math.random() * (maxQty - itemMin + 1));
     result.push({ item, quantity: qty });
     remaining = Math.round((remaining - item.price * qty) * 100) / 100;
@@ -63,4 +60,20 @@ export function generateCombo(budget: number, items: Item[]): ComboResult {
     combo: result,
     remainder: Math.round(remaining * 100) / 100,
   };
+}
+
+/** Retry until the combo total is within 5% below budget, or return the best attempt. */
+export function generateCombo(budget: number, items: Item[]): ComboResult {
+  const MAX_RETRIES = 50;
+  const tolerance = budget * 0.05;
+
+  let best: ComboResult | null = null;
+
+  for (let i = 0; i < MAX_RETRIES; i++) {
+    const result = generateOnce(budget, items);
+    if (result.remainder <= tolerance) return result;
+    if (!best || result.remainder < best.remainder) best = result;
+  }
+
+  return best!;
 }

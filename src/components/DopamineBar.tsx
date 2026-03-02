@@ -20,6 +20,9 @@ export function DopamineBar({ combo }: DopamineBarProps) {
   }));
 
   const maxItemMins = Math.max(...rows.map((r) => r.totalMins), 1);
+  // Item bars scale among themselves but are capped at 25% of the container,
+  // so Claude's 100% bar visually dwarfs even the longest item.
+  const ITEM_BAR_CAP = 25;
 
   return (
     <div className="w-full max-w-xl mx-auto mt-6 px-2">
@@ -29,7 +32,7 @@ export function DopamineBar({ combo }: DopamineBarProps) {
 
       <div className="space-y-2">
         {rows.map((row) => {
-          const widthPct = (row.totalMins / maxItemMins) * 80;
+          const widthPct = (row.totalMins / maxItemMins) * ITEM_BAR_CAP;
           return (
             <div key={row.label} className="flex items-center gap-3">
               <span className="text-sm text-gray-500 w-36 shrink-0 truncate">
